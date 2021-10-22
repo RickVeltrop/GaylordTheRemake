@@ -17,7 +17,7 @@ async def on_ready():
 ext = [
     'extensions.testing',
     'extensions.admin',
-    'extensions.errors',
+    #'extensions.errors',
 ]
 
 if __name__ == "__main__":

@@ -7,7 +7,7 @@ class errorhandler(commands.Cog, name='errorhandler'):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
-        print(f'Error {error} in message {ctx}')
+        print(f'Error {error} in message \'{ctx.message.content}\' by {ctx.author}')
         await ctx.reply(f'Error \'{error}\'. If this is a reoccurring issue, please ask for assistance.')
 
 def setup(bot):
