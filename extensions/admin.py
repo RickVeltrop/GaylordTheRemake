@@ -8,7 +8,7 @@ class admin(commands.Cog, name='Admin commands'):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.command(aliases=['g'])
     async def getperms(self, ctx):
         # Check if a user was mentioned or default to author #
         user = ctx.message.mentions[0] if len(ctx.message.mentions) > 0 else ctx.author
@@ -19,19 +19,18 @@ class admin(commands.Cog, name='Admin commands'):
         Embed = discord.Embed(title=f'Permissions for {user.mention}', description=EmbedText)
         await ctx.send(embed=Embed)
 
-    @commands.command()
+    @commands.command(aliases=['w'])
     async def warn(self, ctx, reason):
         # Check if a user was mentioned #
         user = ctx.message.mentions[0] if len(ctx.message.mentions) > 0 else None
         if user is None: await ctx.send(embed=discord.Embed(title="Request failed!", description="You need to mention a user to warn."))
 
         # Read current data from file #
-        data = None
         with open(JsonFile, 'r') as file:
             data = dict(json.load(file))
             file.close()
 
-        # Check if there is data or not #
+        # Check whether there is data or not #
         if str(user.id) in data:
             data[str(user.id)]['warns'].append([reason, str(ctx.author.id)])
         else:
@@ -42,6 +41,16 @@ class admin(commands.Cog, name='Admin commands'):
             json.dump(data, file)
             file.close()
             data.clear()
+
+    @commands.command(aliases=['s'])
+    async def showwarns(self, ctx):
+        # Read current data from file #
+        with open(JsonFile, 'r') as file:
+            data = dict(json.load(file))
+            file.close()
+
+        print(data)
+        print()
 
 
 def setup(bot):
