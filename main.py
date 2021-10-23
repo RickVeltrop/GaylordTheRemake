@@ -31,6 +31,8 @@ if __name__ == "__main__":
 -- Kick command
 -- Lockdown command (lock a chat for a time period)
 
+-- Additional information for warns
+
 -- Admin logging
 -- Mutes
 
