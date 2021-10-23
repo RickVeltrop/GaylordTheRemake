@@ -10,7 +10,6 @@ Client = commands.Bot(
 async def on_ready():
     Activity = discord.Game(f'{Client.command_prefix}help')
     await Client.change_presence(status=discord.Status.online, activity=Activity)
-
     print(f'Logged in as {Client.user}')
 
 ext = [
@@ -30,8 +29,6 @@ if __name__ == "__main__":
 -- Ban command
 -- Kick command
 -- Lockdown command (lock a chat for a time period)
-
--- Additional information for warns
 
 -- Admin logging
 -- Mutes
