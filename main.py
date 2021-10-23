@@ -4,7 +4,6 @@ from discord.ext import commands
 Client = commands.Bot(
     command_prefix='-',
     case_insensitive=True,
-    owner_id=519508374581149707,
 )
 
 @Client.event
@@ -17,7 +16,7 @@ async def on_ready():
 ext = [
     'extensions.testing',
     'extensions.admin',
-    #'extensions.errors',
+    'extensions.errors',
 ]
 
 if __name__ == "__main__":
