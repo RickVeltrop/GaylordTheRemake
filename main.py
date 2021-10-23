@@ -23,3 +23,16 @@ if __name__ == "__main__":
     for extension in ext:
         Client.load_extension(extension)
     Client.run('OTAwNzc5NjE5MjI4MjE3Mzg1.YXGSZA.gZLNFnEObiDg1jHjYxRKcXNYrTE')
+
+'''
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  To do:  -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+-- Ban command
+-- Kick command
+-- Lockdown command (lock a chat for a time period)
+
+-- Admin logging
+-- Mutes
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+'''
