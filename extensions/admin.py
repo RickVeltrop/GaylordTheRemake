@@ -8,6 +8,10 @@ class admin(commands.Cog, name='Admin commands'):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command(aliases=['mention', 'get', 'user'])
+    async def getuser(self, ctx, userid):
+        await ctx.send(f"<@!{userid}>")
+
     @commands.command(aliases=['g', 'perms'])
     async def getperms(self, ctx):
         # Check if a user was mentioned or default to author #
@@ -36,7 +40,7 @@ class admin(commands.Cog, name='Admin commands'):
         if str(user.id) in data:
             data[str(user.id)]['warns'].append([reason, str(ctx.author.id)])
         else:
-            data[user.id] = {"warns": [[reason, ctx.author.id]]}
+            data[user.id] = {"warns": [[reason, str(ctx.author.id)]]}
 
         # Write updated data to file and clear data #
         with open(JsonFile, 'w') as file:
