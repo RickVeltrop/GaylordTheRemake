@@ -1,6 +1,7 @@
 import json
 import datetime
 import discord
+from discord.utils import get
 from discord.ext import commands
 
 TimeFormat = '%H:%M:%S (gmt-1) on %a %d/%m/%y'
@@ -25,6 +26,40 @@ class admin(commands.Cog, name='Admin commands'):
         Embed = discord.Embed(title=f'Permissions for {user.mention}', description=EmbedText)
         await ctx.send(embed=Embed)
 
+    @commands.command()
+    async def kick(self, ctx, kickreason):
+        # Check if a user was mentioned #
+        user = ctx.message.mentions[0] if len(ctx.message.mentions) > 0 else None
+        if user is None:
+            await ctx.send(embed=discord.Embed(title="Request failed!", description="You need to mention a user to kick."))
+            return
+
+        # Check whether reason is within allowed length #
+        if len(kickreason) > 50:
+            await ctx.send(embed=discord.Embed(title="Request failed!", description="Your reason has to be shorter."))
+            return
+
+        # Kick member and report back to the user #
+        await ctx.guild.kick(user=user, reason=kickreason)
+        await ctx.send(embed=discord.Embed(title="Success!", description=f"{user.name} was kicked from the server"))
+
+    @commands.command()
+    async def ban(self, ctx, banreason):
+        # Check if a user was mentioned #
+        user = ctx.message.mentions[0] if len(ctx.message.mentions) > 0 else None
+        if user is None:
+            await ctx.send(embed=discord.Embed(title="Request failed!", description="You need to mention a user to kick."))
+            return
+
+        # Check whether reason is within allowed length #
+        if len(banreason) > 50:
+            await ctx.send(embed=discord.Embed(title="Request failed!", description="Your reason has to be shorter."))
+            return
+
+        # Kick member and report back to the user #
+        await ctx.guild.ban(user=user, reason=banreason, delete_message_days=0)
+        await ctx.send(embed=discord.Embed(title="Success!", description=f"{user.name} was kicked from the server"))
+
     @commands.command(aliases=['w'])
     async def warn(self, ctx, reason):
         # Check if a user was mentioned #
@@ -46,13 +81,13 @@ class admin(commands.Cog, name='Admin commands'):
         # Include time in warn #
         CurrentTime = datetime.datetime.today()
         CurrentTime = CurrentTime.strftime(TimeFormat)
-        TimeText = f" (at {CurrentTime})."
+        CurrentTime = f" (at {CurrentTime})."
 
         # Check whether there is data or not #
         if str(user.id) in data:
-            data[str(user.id)]['warns'].append([reason, str(ctx.author.id), TimeText])
+            data[str(user.id)]['warns'].append([reason, str(ctx.author.id), CurrentTime])
         else:
-            data[user.id] = {"warns": [[reason, str(ctx.author.id), TimeText]]}
+            data[user.id] = {"warns": [[reason, str(ctx.author.id), CurrentTime]]}
 
         # Write updated data to file and clear data #
         with open(JsonFile, 'w') as file:
