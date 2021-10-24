@@ -26,14 +26,9 @@ if __name__ == "__main__":
 '''
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  To do:  -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
--- Ban command
--- Kick command
--- Lockdown command (lock a chat for a time period)
-
 -- Admin logging
 -- Mutes
 
--- Command attributes
 -- Help command
 
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-

@@ -1,21 +1,25 @@
 import json
-import datetime
 import discord
-from discord.utils import get
+import datetime
+from attributes import adminatt as a
 from discord.ext import commands
+from includes import randomcolor as randcol
 
 TimeFormat = '%H:%M:%S (gmt-1) on %a %d/%m/%y'
 JsonFile = 'json/warns.json'
+LockedChannels = []
 
 class admin(commands.Cog, name='Admin commands'):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(aliases=['mention', 'get', 'user'])
+    @commands.command(aliases=a.getuser['aliases'], brief=a.getuser['brief'], description=a.getuser['description'], enabled=a.getuser['enabled'], hidden=a.getuser['hidden'], usage=a.getuser['usage'])
+    @commands.has_permissions(mention_everyone=True)
     async def getuser(self, ctx, userid):
         await ctx.send(f"<@!{userid}>")
 
-    @commands.command(aliases=['g', 'perms'])
+    @commands.command(aliases=a.getperms['aliases'], brief=a.getperms['brief'], description=a.getperms['description'], enabled=a.getperms['enabled'], hidden=a.getperms['hidden'], usage=a.getperms['usage'])
+    @commands.has_permissions(manage_roles=True)
     async def getperms(self, ctx):
         # Check if a user was mentioned or default to author #
         user = ctx.message.mentions[0] if len(ctx.message.mentions) > 0 else ctx.author
@@ -23,54 +27,85 @@ class admin(commands.Cog, name='Admin commands'):
         # Get users perms and create embed #
         UserPerms = dict(user.guild_permissions)
         EmbedText = f',\n'.join(f'{key}: {val}' for key, val in UserPerms.items())
-        Embed = discord.Embed(title=f'Permissions for {user.mention}', description=EmbedText)
+        Embed = discord.Embed(title=f'Permissions for {user.name}', description=EmbedText, color=randcol())
         await ctx.send(embed=Embed)
 
-    @commands.command()
+    @commands.command(aliases=a.lockchannel['aliases'], brief=a.lockchannel['brief'], description=a.lockchannel['description'], enabled=a.lockchannel['enabled'], hidden=a.lockchannel['hidden'], usage=a.lockchannel['usage'])
+    @commands.has_permissions(manage_channels=True)
+    async def lockchannel(self, ctx):
+        # Check if a channel was mentioned #
+        channel = ctx.message.channel_mentions[0] if len(ctx.message.channel_mentions) > 0 else ctx.channel
+
+        # Add locked channel to list #
+        LockedChannels.append(channel)
+
+        # Edit channel perms and report to user #
+        await channel.set_permissions(ctx.guild.default_role, send_messages=False)
+        await ctx.send(embed=discord.Embed(title='Success!', description=f'Locked {channel.name}.', color=randcol()))
+
+    @commands.command(aliases=a.unlock['aliases'], brief=a.unlock['brief'], description=a.unlock['description'], enabled=a.unlock['enabled'], hidden=a.unlock['hidden'], usage=a.unlock['usage'])
+    @commands.has_permissions(manage_channels=True)
+    async def unlock(self, ctx):
+        # Check if a channel was mentioned #
+        channel = ctx.message.channel_mentions[0] if len(ctx.message.channel_mentions) > 0 else ctx.channel
+
+        # Check if given channel is locked #
+        if channel not in LockedChannels:
+            await ctx.send(embed=discord.Embed(title='Request failed!', description='This channel is not locked', color=randcol()))
+            return
+
+        # Edit channel perms and report to user #
+        await channel.set_permissions(ctx.guild.default_role, send_messages=True)
+        await ctx.send(embed=discord.Embed(title='Success!', description=f'Unlocked {channel.name}.', color=randcol()))
+
+    @commands.command(aliases=a.kick['aliases'], brief=a.kick['brief'], description=a.kick['description'], enabled=a.kick['enabled'], hidden=a.kick['hidden'], usage=a.kick['usage'])
+    @commands.has_permissions(kick_members=True)
     async def kick(self, ctx, kickreason):
         # Check if a user was mentioned #
         user = ctx.message.mentions[0] if len(ctx.message.mentions) > 0 else None
         if user is None:
-            await ctx.send(embed=discord.Embed(title="Request failed!", description="You need to mention a user to kick."))
+            await ctx.send(embed=discord.Embed(title="Request failed!", description="You need to mention a user to kick.", color=randcol()))
             return
 
         # Check whether reason is within allowed length #
         if len(kickreason) > 50:
-            await ctx.send(embed=discord.Embed(title="Request failed!", description="Your reason has to be shorter."))
+            await ctx.send(embed=discord.Embed(title="Request failed!", description="Your reason has to be shorter.", color=randcol()))
             return
 
         # Kick member and report back to the user #
         await ctx.guild.kick(user=user, reason=kickreason)
-        await ctx.send(embed=discord.Embed(title="Success!", description=f"{user.name} was kicked from the server"))
+        await ctx.send(embed=discord.Embed(title="Success!", description=f"{user.name} was kicked from the server", color=randcol()))
 
-    @commands.command()
+    @commands.command(aliases=a.ban['aliases'], brief=a.ban['brief'], description=a.ban['description'], enabled=a.ban['enabled'], hidden=a.ban['hidden'], usage=a.ban['usage'])
+    @commands.has_permissions(ban_members=True)
     async def ban(self, ctx, banreason):
         # Check if a user was mentioned #
         user = ctx.message.mentions[0] if len(ctx.message.mentions) > 0 else None
         if user is None:
-            await ctx.send(embed=discord.Embed(title="Request failed!", description="You need to mention a user to kick."))
+            await ctx.send(embed=discord.Embed(title="Request failed!", description="You need to mention a user to ban.", color=randcol()))
             return
 
         # Check whether reason is within allowed length #
         if len(banreason) > 50:
-            await ctx.send(embed=discord.Embed(title="Request failed!", description="Your reason has to be shorter."))
+            await ctx.send(embed=discord.Embed(title="Request failed!", description="Your reason has to be shorter.", color=randcol()))
             return
 
-        # Kick member and report back to the user #
+        # Ban member and report back to the user #
         await ctx.guild.ban(user=user, reason=banreason, delete_message_days=0)
-        await ctx.send(embed=discord.Embed(title="Success!", description=f"{user.name} was kicked from the server"))
+        await ctx.send(embed=discord.Embed(title="Success!", description=f"{user.name} was banned from the server", color=randcol()))
 
-    @commands.command(aliases=['w'])
+    @commands.command(aliases=a.warn['aliases'], brief=a.warn['brief'], description=a.warn['description'], enabled=a.warn['enabled'], hidden=a.warn['hidden'], usage=a.warn['usage'])
+    @commands.has_permissions(kick_members=True)
     async def warn(self, ctx, reason):
         # Check if a user was mentioned #
         user = ctx.message.mentions[0] if len(ctx.message.mentions) > 0 else None
         if user is None:
-            await ctx.send(embed=discord.Embed(title="Request failed!", description="You need to mention a user to warn."))
+            await ctx.send(embed=discord.Embed(title="Request failed!", description="You need to mention a user to warn.", color=randcol()))
             return
 
         # Check whether reason is within allowed length #
         if len(reason) > 50:
-            await ctx.send(embed=discord.Embed(title="Request failed!", description="Your reason has to be shorter."))
+            await ctx.send(embed=discord.Embed(title="Request failed!", description="Your reason has to be shorter.", color=randcol()))
             return
 
         # Read current data from file #
@@ -96,14 +131,15 @@ class admin(commands.Cog, name='Admin commands'):
             data.clear()
 
         # Report back to the user #
-        await ctx.send(embed=discord.Embed(title='Success!', description=f'Warned {user.name} for {reason}'))
+        await ctx.send(embed=discord.Embed(title='Success!', description=f'Warned {user.name} for {reason}', color=randcol()))
 
-    @commands.command(aliases=['s', 'warns'])
+    @commands.command(aliases=a.showwarns['aliases'], brief=a.showwarns['brief'], description=a.showwarns['description'], enabled=a.showwarns['enabled'], hidden=a.showwarns['hidden'], usage=a.showwarns['usage'])
+    @commands.has_permissions(kick_members=True)
     async def showwarns(self, ctx):
         # Check if a user was mentioned #
         user = ctx.message.mentions[0] if len(ctx.message.mentions) > 0 else None
         if user is None:
-            await ctx.send(embed=discord.Embed(title="Request failed!", description="You need to mention a user to show."))
+            await ctx.send(embed=discord.Embed(title="Request failed!", description="You need to mention a user to show.", color=randcol()))
             return
 
         # Read current data from file #
@@ -112,7 +148,7 @@ class admin(commands.Cog, name='Admin commands'):
             file.close()
 
         # Prepare discord embed #
-        Embed = discord.Embed(title=f'Warns for {user.name}:')
+        Embed = discord.Embed(title=f'Warns for {user.name}:', color=randcol)
 
         # Bool to determine whether there is data #
         HasData = False
@@ -131,7 +167,7 @@ class admin(commands.Cog, name='Admin commands'):
         if HasData:
             await ctx.send(embed=Embed)
         elif not HasData:
-            await ctx.send(embed=discord.Embed(title='No data!', description='No data was found for this user.'))
+            await ctx.send(embed=discord.Embed(title='No data!', description='No data was found for this user.', color=randcol()))
 
 
 def setup(bot):
