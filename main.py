@@ -28,8 +28,12 @@ if __name__ == "__main__":
 
 -- Admin logging
 -- Mutes
+-- Fun commands
+
+-- Admin username in showwarns
 
 -- Help command
+-- Error handling
 
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 '''
