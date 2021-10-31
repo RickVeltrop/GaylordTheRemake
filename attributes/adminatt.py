@@ -4,7 +4,7 @@ getuser = {
     'description': 'Mentions the user who\'s ID was entered',
     'enabled': True,
     'hidden': False,
-    'usage': 'Params: "User ID"'
+    'usage': '"User ID"'
 }
 
 getperms = {
@@ -13,7 +13,7 @@ getperms = {
     'description': 'Gets all of a specified user\'s perms, requires manage roles.',
     'enabled': True,
     'hidden': False,
-    'usage': 'Params: @user*',
+    'usage': '@user*',
 }
 
 lockchannel = {
@@ -22,7 +22,7 @@ lockchannel = {
     'description': 'Stops non-admin users from sending messages in the specified channel.',
     'enabled': True,
     'hidden': False,
-    'usage': 'Params: #channel*'
+    'usage': '#channel*'
 }
 
 unlock = {
@@ -31,7 +31,7 @@ unlock = {
     'description': 'Lets non-admin users send messages in a previously locked server.',
     'enabled': True,
     'hidden': False,
-    'usage': 'Params: #channel*'
+    'usage': '#channel*'
 }
 
 kick = {
@@ -40,7 +40,7 @@ kick = {
     'description': 'Kicks the specified user from the server.',
     'enabled': True,
     'hidden': False,
-    'usage': 'Params: "reason" @user'
+    'usage': '"reason" @user'
 }
 
 ban = {
@@ -49,7 +49,7 @@ ban = {
     'description': 'Bans the specified user from the server for undetermined time',
     'enabled': True,
     'hidden': False,
-    'usage': 'Params: "reason" @user'
+    'usage': '"reason" @user'
 }
 
 warn = {
@@ -58,7 +58,7 @@ warn = {
     'description': 'Formally warns specified user for the given reason.',
     'enabled': True,
     'hidden': False,
-    'usage': 'Params: "reason" @user'
+    'usage': '"reason" @user'
 }
 
 showwarns = {
@@ -67,5 +67,5 @@ showwarns = {
     'description': 'Shows all warns for the specified user',
     'enabled': True,
     'hidden': False,
-    'usage': 'Params: @user'
+    'usage': '@user'
 }

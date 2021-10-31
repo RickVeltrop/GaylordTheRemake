@@ -1,9 +1,15 @@
 import discord
+import includes
 from discord.ext import commands
+
+Intents = discord.Intents.default()
+Intents.members = True
 
 Client = commands.Bot(
     command_prefix='-',
     case_insensitive=True,
+    intents=Intents,
+    help_command=None,
 )
 
 @Client.event
@@ -15,6 +21,7 @@ async def on_ready():
 ext = [
     'extensions.testing',
     'extensions.admin',
+    'extensions.help',
     'extensions.errors',
 ]
 
@@ -29,8 +36,6 @@ if __name__ == "__main__":
 -- Admin logging
 -- Mutes
 -- Fun commands
-
--- Admin username in showwarns
 
 -- Help command
 -- Error handling
