@@ -1,17 +1,8 @@
 help = {
-    'aliases': ['h', 'genhelp'],
-    'brief': 'Sends all available commands',
-    'description': 'Sends a message with all available commands',
+    'aliases': ['h'],
+    'brief': 'Sends help message.',
+    'description': 'Sends a message with all commands, or with the usage for 1 command if specified.',
     'enabled': True,
     'hidden': False,
-    'usage': ''
-}
-
-commhelp = {
-    'aliases': ['comhelp', 'comm', 'command', 'com'],
-    'brief': 'Mentions a user',
-    'description': 'Mentions the user who\'s ID was entered',
-    'enabled': True,
-    'hidden': False,
-    'usage': '"User ID"'
+    'usage': 'command*'
 }

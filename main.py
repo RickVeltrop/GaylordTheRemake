@@ -1,5 +1,4 @@
 import discord
-import includes
 from discord.ext import commands
 
 Intents = discord.Intents.default()
@@ -37,7 +36,6 @@ if __name__ == "__main__":
 -- Mutes
 -- Fun commands
 
--- Help command
 -- Error handling
 
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
