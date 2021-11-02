@@ -31,36 +31,28 @@ class HelpComm(commands.Cog, name='Help commands'):
             # Loop through cogs #
             Cogs = self.bot.cogs
             for cog in Cogs.values():
-                # If cog has no commands #
-                if len(cog.get_commands()) <= 1: continue
+                # Start counting commands and backup text #
+                ShownAmount = 0
+                TextBackup = HelpText
 
-                # Add cog name and commands to the list #
+                # Add cog info to command #
                 HelpText += f'\n  --  {cog.qualified_name}:  --  \n'
                 for command in cog.get_commands():
+                    # Check if command should be shown #
                     if command.brief is None or command.hidden is True: continue
+
+                    # Add command to text #
+                    ShownAmount += 1
                     HelpText += f'{command.name}:   {command.brief}\n'
+
+                # Check whether enough commands are shown #
+                if ShownAmount < 1:
+                    HelpText = TextBackup
+                    continue
 
             # End help text and send text #
             HelpText += '```'
             await ctx.reply(HelpText)
-
-    @commands.command(aliases=a.commhelp['aliases'], brief=a.commhelp['brief'], description=a.commhelp['description'], enabled=a.commhelp['enabled'], hidden=a.commhelp['hidden'], usage=a.commhelp['usage'])
-    async def commhelp(self, ctx, comm):
-        for command in self.bot.commands:
-            if command.name == comm or comm in command.aliases:
-                # Define help text #
-                HelpText = f'``` Help for command {command.name}({comm}): \n'
-                HelpText += f'(Params with a * are optional)\n\n'
-                HelpText += f'{command.description}\n'
-                HelpText += f'Aliases: {[al for al in command.aliases]}\n'
-                HelpText += f'Usage: {command.name} {command.usage}'
-                HelpText += '```'
-
-                # Send help text and end function #
-                await ctx.reply(HelpText)
-                return
-
-        await ctx.reply(embed=discord.Embed(title='Request failed!', description=f'Could not find command \'{comm}\'.'))
 
 
 def setup(bot):
