@@ -17,6 +17,8 @@ class errorhandler(commands.Cog, name='errorhandler'):
             message = f'You\'re missing permissions to do that.'
         elif isinstance(error, commands.BotMissingPermissions):
             message = f'I don\'t have permissions to run this command.'
+        elif isinstance(error, commands.CommandNotFound):
+            message = f'This command does not exist.'
         else:
             message = f'Error: \'{error}\'.\nIf this is a reoccurring issue, please ask for assistance.'
 
