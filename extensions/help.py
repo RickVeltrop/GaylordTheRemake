@@ -17,7 +17,7 @@ class HelpComm(commands.Cog, name='Help commands'):
                     HelpText += f'(Params with a * are optional)\n\n'
                     HelpText += f'{command.description}\n'
                     HelpText += f'Aliases: {[al for al in command.aliases]}\n'
-                    HelpText += f'Usage: {command.name} {command.usage}'
+                    HelpText += f'Usage: {self.bot.command_prefix}{command.name} {command.usage}'
                     HelpText += '```'
 
                     # Send help text and end function #

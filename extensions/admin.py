@@ -7,9 +7,8 @@ import includes
 
 TimeFormat = '%H:%M:%S (gmt-1) on %a %d/%m/%y'
 JsonFile = 'json/warns.json'
-LockedChannels = []
 
-class admin(commands.Cog, name='Admin commands'):
+class admin(commands.Cog, name='General admin commands'):
     def __init__(self, bot):
         self.bot = bot
 
@@ -20,7 +19,7 @@ class admin(commands.Cog, name='Admin commands'):
 
     @commands.command(aliases=a.getperms['aliases'], brief=a.getperms['brief'], description=a.getperms['description'], enabled=a.getperms['enabled'], hidden=a.getperms['hidden'], usage=a.getperms['usage'])
     @commands.has_permissions(manage_roles=True)
-    async def getperms(self, ctx):
+    async def getperms(self, ctx, mention=None):
         # Check if a user was mentioned or default to author #
         user = ctx.message.mentions[0] if len(ctx.message.mentions) > 0 else ctx.author
 
@@ -30,37 +29,9 @@ class admin(commands.Cog, name='Admin commands'):
         Embed = discord.Embed(title=f'Permissions for {user.name}', description=EmbedText, color=includes.randomcolor())
         await ctx.reply(embed=Embed)
 
-    @commands.command(aliases=a.lockchannel['aliases'], brief=a.lockchannel['brief'], description=a.lockchannel['description'], enabled=a.lockchannel['enabled'], hidden=a.lockchannel['hidden'], usage=a.lockchannel['usage'])
-    @commands.has_permissions(manage_channels=True)
-    async def lockchannel(self, ctx):
-        # Check if a channel was mentioned #
-        channel = ctx.message.channel_mentions[0] if len(ctx.message.channel_mentions) > 0 else ctx.channel
-
-        # Add locked channel to list #
-        LockedChannels.append(channel)
-
-        # Edit channel perms and report to user #
-        await channel.set_permissions(ctx.guild.default_role, send_messages=False)
-        await ctx.reply(embed=discord.Embed(title='Success!', description=f'Locked {channel.name}.', color=includes.randomcolor()))
-
-    @commands.command(aliases=a.unlock['aliases'], brief=a.unlock['brief'], description=a.unlock['description'], enabled=a.unlock['enabled'], hidden=a.unlock['hidden'], usage=a.unlock['usage'])
-    @commands.has_permissions(manage_channels=True)
-    async def unlock(self, ctx):
-        # Check if a channel was mentioned #
-        channel = ctx.message.channel_mentions[0] if len(ctx.message.channel_mentions) > 0 else ctx.channel
-
-        # Check if given channel is locked #
-        if channel not in LockedChannels:
-            await ctx.reply(embed=discord.Embed(title='Request failed!', description='This channel is not locked', color=includes.randomcolor()))
-            return
-
-        # Edit channel perms and report to user #
-        await channel.set_permissions(ctx.guild.default_role, send_messages=True)
-        await ctx.reply(embed=discord.Embed(title='Success!', description=f'Unlocked {channel.name}.', color=includes.randomcolor()))
-
     @commands.command(aliases=a.kick['aliases'], brief=a.kick['brief'], description=a.kick['description'], enabled=a.kick['enabled'], hidden=a.kick['hidden'], usage=a.kick['usage'])
     @commands.has_permissions(kick_members=True)
-    async def kick(self, ctx, kickreason):
+    async def kick(self, ctx, mention, kickreason):
         # Check if a user was mentioned #
         user = ctx.message.mentions[0] if len(ctx.message.mentions) > 0 else None
         if user is None:
@@ -78,7 +49,7 @@ class admin(commands.Cog, name='Admin commands'):
 
     @commands.command(aliases=a.ban['aliases'], brief=a.ban['brief'], description=a.ban['description'], enabled=a.ban['enabled'], hidden=a.ban['hidden'], usage=a.ban['usage'])
     @commands.has_permissions(ban_members=True)
-    async def ban(self, ctx, banreason):
+    async def ban(self, ctx, mention, banreason):
         # Check if a user was mentioned #
         user = ctx.message.mentions[0] if len(ctx.message.mentions) > 0 else None
         if user is None:
@@ -96,7 +67,7 @@ class admin(commands.Cog, name='Admin commands'):
 
     @commands.command(aliases=a.warn['aliases'], brief=a.warn['brief'], description=a.warn['description'], enabled=a.warn['enabled'], hidden=a.warn['hidden'], usage=a.warn['usage'])
     @commands.has_permissions(kick_members=True)
-    async def warn(self, ctx, reason):
+    async def warn(self, ctx, mention, reason):
         # Check if a user was mentioned #
         user = ctx.message.mentions[0] if len(ctx.message.mentions) > 0 else None
         if user is None:
@@ -135,7 +106,7 @@ class admin(commands.Cog, name='Admin commands'):
 
     @commands.command(aliases=a.showwarns['aliases'], brief=a.showwarns['brief'], description=a.showwarns['description'], enabled=a.showwarns['enabled'], hidden=a.showwarns['hidden'], usage=a.showwarns['usage'])
     @commands.has_permissions(kick_members=True)
-    async def showwarns(self, ctx):
+    async def showwarns(self, ctx, mention):
         # Check if a user was mentioned #
         user = ctx.message.mentions[0] if len(ctx.message.mentions) > 0 else None
         if user is None:

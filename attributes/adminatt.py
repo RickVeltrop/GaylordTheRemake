@@ -16,24 +16,6 @@ getperms = {
     'usage': '@user*',
 }
 
-lockchannel = {
-    'aliases': ['l', 'lock'],
-    'brief': 'Keep users from sending messages.',
-    'description': 'Stops non-admin users from sending messages in the specified channel.',
-    'enabled': True,
-    'hidden': False,
-    'usage': '#channel*'
-}
-
-unlock = {
-    'aliases': ['u', 'unl'],
-    'brief': 'Unlocks channel.',
-    'description': 'Lets non-admin users send messages in a previously locked server.',
-    'enabled': True,
-    'hidden': False,
-    'usage': '#channel*'
-}
-
 kick = {
     'aliases': ['k', 'kickmember'],
     'brief': 'Kicks user from the server,',
@@ -62,7 +44,7 @@ warn = {
 }
 
 showwarns = {
-    'aliases': ['s', 'warns', 'show'],
+    'aliases': ['warns', 'show'],
     'brief': 'Shows warns for a user',
     'description': 'Shows all warns for the specified user',
     'enabled': True,

@@ -20,6 +20,7 @@ async def on_ready():
 ext = [
     'extensions.testing',
     'extensions.admin',
+    'extensions.channeladmin',
     'extensions.help',
     'extensions.errors',
 ]
