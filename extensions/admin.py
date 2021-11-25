@@ -1,6 +1,7 @@
 import json
 import discord
 import datetime
+import asyncio
 from attributes import adminatt as a
 from discord.ext import commands
 import includes
@@ -146,6 +147,97 @@ class admin(commands.Cog, name='General admin commands'):
         elif not HasData:
             await ctx.reply(embed=discord.Embed(title='No data!', description='No data was found for this user.', color=includes.randomcolor()))
 
+    @commands.command(aliases=a.muteuser['aliases'], brief=a.muteuser['brief'], description=a.muteuser['description'], enabled=a.muteuser['enabled'], hidden=a.muteuser['hidden'], usage=a.muteuser['usage'])
+    @commands.has_permissions()
+    async def muteuser(self, ctx, mention=None, reason=None, hours=None, mins=None, secs=None):
+        # Check if a user was mentioned #
+        user = ctx.message.mentions[0] if len(ctx.message.mentions) > 0 else None
+        if user is None:
+            await ctx.reply(embed=discord.Embed(title="Request failed!", description="You need to mention a user to mute.", color=includes.randomcolor()))
+            return
+
+        # Check if a reason was given #
+        reason = reason if reason is not None else 'No reason given'
+
+        # Find muted role #
+        MuteRole = None
+        roles = ctx.message.guild.roles
+        for role in roles:
+            if role.name == 'Muted':
+                MuteRole = role
+                break
+
+        # Get seconds the mute will take #
+        Dur = ConvertTime(hours, mins, secs)
+
+        # Add role to mute the user #
+        await user.add_roles(MuteRole, reason=reason)
+
+        # Mute msg embed #
+        MuteEmbed = discord.Embed(title=f'Muted {user.name}')
+        MuteEmbed.add_field(name='Reason:', value=reason, inline=False)
+
+        if Dur > 0:
+            MuteEmbed.add_field(name='Duration:', value=f'Hours: {hours}.\nMins: {mins}.\nSecs: {secs}.\nTotal secs: {Dur}.', inline=False)
+        elif Dur == 0:
+            MuteEmbed.add_field(name='Duration:', value='Undefined', inline=False)
+
+        # Report back to author #
+        await ctx.reply(embed=MuteEmbed)
+
+        if Dur > 0:
+            # Wait for mute to end #
+            await asyncio.sleep(Dur)
+
+            # Find and delete muted role #
+            roles = user.roles
+            for role in roles:
+                if role.name == 'Muted':
+                    await user.remove_roles(role, reason='Mute ended.')
+
+                    try:
+                        await ctx.reply(embed=discord.Embed(title=f'Unmuted {user.name}', description=f'Unmuted {user.mention}, for mute ended.'))
+                    except Exception:
+                        await ctx.send(embed=discord.Embed(title=f'Unmuted {user.name}', description=f'Unmuted {user.mention}, for mute ended.'))
+
+
+    @commands.command(aliases=a.unmuteuser['aliases'], brief=a.unmuteuser['brief'], description=a.unmuteuser['description'], enabled=a.unmuteuser['enabled'], hidden=a.unmuteuser['hidden'], usage=a.unmuteuser['usage'])
+    @commands.has_permissions()
+    async def unmuteuser(self, ctx, mention=None, reason=None):
+        # Check if a user was mentioned #
+        user = ctx.message.mentions[0] if len(ctx.message.mentions) > 0 else None
+        if user is None:
+            await ctx.reply(embed=discord.Embed(title="Request failed!", description="You need to mention a user to unmute.", color=includes.randomcolor()))
+            return
+
+        # Check if a reason was given #
+        reason = reason if reason is not None else 'No reason given'
+
+        # Find and delete muted role #
+        roles = user.roles
+        for role in roles:
+            if role.name == 'Muted':
+                await user.remove_roles(role, reason=reason)
+                await ctx.reply(embed=discord.Embed(title=f'Unmuted {user.name}', description=f'Unmuted {user.mention}, for {reason}'))
+                return
+
+        await ctx.reply(embed=discord.Embed(title=f'Request failed!', description=f'It seems {user.mention} is not muted.'))
+
 
 def setup(bot):
     bot.add_cog(admin(bot))
+
+
+def ConvertTime(hours, mins, secs):
+    # Var to store total time #
+    TotalSecs = 0
+
+    # Check if input was given #
+    if hours not in [None, '0', '-']:
+        TotalSecs +=  int(hours) * 3600
+    if mins not in [None, '0', '-']:
+        TotalSecs += int(mins) * 60
+    if secs not in [None, '0', '-']:
+        TotalSecs += int(secs)
+
+    return TotalSecs

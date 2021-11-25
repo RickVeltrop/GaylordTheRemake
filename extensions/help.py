@@ -14,7 +14,7 @@ class HelpComm(commands.Cog, name='Help commands'):
                 if command.name == comm or comm in command.aliases:
                     # Define help text #
                     HelpText = f'``` Help for command {command.name}({comm}): \n'
-                    HelpText += f'(Params with a * are optional)\n\n'
+                    HelpText += f'(Params with a * are optional, note that you cannot skip params though.)\n\n'
                     HelpText += f'{command.description}\n'
                     HelpText += f'Aliases: {[al for al in command.aliases]}\n'
                     HelpText += f'Usage: {self.bot.command_prefix}{command.name} {command.usage}'

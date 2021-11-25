@@ -51,3 +51,21 @@ showwarns = {
     'hidden': False,
     'usage': '@user'
 }
+
+muteuser = {
+    'aliases': ['mute', 'm'],
+    'brief': 'Prevents a user from messaging.',
+    'description': 'Prevents a user from sending messages for a specified duration',
+    'enabled': True,
+    'hidden': False,
+    'usage': '@user reason* hours* minutes* seconds*'
+}
+
+unmuteuser = {
+    'aliases': ['unmute', 'um'],
+    'brief': 'Unmutes a user',
+    'description': 'Unmutes specified user for the given reason',
+    'enabled': True,
+    'hidden': False,
+    'usage': '@user reason*'
+}
