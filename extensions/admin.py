@@ -148,7 +148,7 @@ class admin(commands.Cog, name='General admin commands'):
             await ctx.reply(embed=discord.Embed(title='No data!', description='No data was found for this user.', color=includes.randomcolor()))
 
     @commands.command(aliases=a.muteuser['aliases'], brief=a.muteuser['brief'], description=a.muteuser['description'], enabled=a.muteuser['enabled'], hidden=a.muteuser['hidden'], usage=a.muteuser['usage'])
-    @commands.has_permissions()
+    @commands.has_permissions(mute_members=True)
     async def muteuser(self, ctx, mention=None, reason=None, hours=None, mins=None, secs=None):
         # Check if a user was mentioned #
         user = ctx.message.mentions[0] if len(ctx.message.mentions) > 0 else None
@@ -202,7 +202,7 @@ class admin(commands.Cog, name='General admin commands'):
 
 
     @commands.command(aliases=a.unmuteuser['aliases'], brief=a.unmuteuser['brief'], description=a.unmuteuser['description'], enabled=a.unmuteuser['enabled'], hidden=a.unmuteuser['hidden'], usage=a.unmuteuser['usage'])
-    @commands.has_permissions()
+    @commands.has_permissions(mute_members=True)
     async def unmuteuser(self, ctx, mention=None, reason=None):
         # Check if a user was mentioned #
         user = ctx.message.mentions[0] if len(ctx.message.mentions) > 0 else None

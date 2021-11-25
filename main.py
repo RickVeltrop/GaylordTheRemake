@@ -22,6 +22,7 @@ ext = [
     'extensions.admin',
     'extensions.channeladmin',
     'extensions.help',
+    'extensions.logging',
     'extensions.errors',
 ]
 
@@ -34,7 +35,6 @@ if __name__ == "__main__":
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  To do:  -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 -- Admin logging
--- Mutes
 -- Fun commands
 
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
