@@ -1,5 +1,9 @@
+import os
 import discord
+from dotenv import load_dotenv
 from discord.ext import commands
+
+load_dotenv()
 
 Intents = discord.Intents.default()
 Intents.members = True
@@ -29,7 +33,7 @@ ext = [
 if __name__ == "__main__":
     for extension in ext:
         Client.load_extension(extension)
-    Client.run('OTAwNzc5NjE5MjI4MjE3Mzg1.YXGSZA.gZLNFnEObiDg1jHjYxRKcXNYrTE')
+    Client.run(os.getenv('TOKEN'))
 
 '''
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  To do:  -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
