@@ -27,7 +27,7 @@ ext = [
     'extensions.channeladmin',
     'extensions.help',
     'extensions.logging',
-    #'extensions.errors',
+    'extensions.errors',
 ]
 
 if __name__ == "__main__":
