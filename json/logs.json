@@ -1,1 +1,14 @@
-{"log519508374581149707": {"Command": "log", "AdminName": "Froggo Doggo the First#6969", "AdminId": 519508374581149707}}
+{
+  "519508374581149707": {
+    "Log0log": [
+      "command:log",
+      "adminname:Froggo Doggo#6969",
+      "adminid519508374581149707"
+    ],
+    "Log1log": [
+      "command:log",
+      "adminname:Froggo Doggo#6969",
+      "adminid519508374581149707"
+    ]
+  }
+}
