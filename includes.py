@@ -1,4 +1,4 @@
-from random import randint
+from random import choice
 from discord import Color as c
 
 colors = [
@@ -25,4 +25,4 @@ colors = [
 # Function to return a random embed color #
 def randomcolor():
 	# Return a random color #
-	return colors[randint(0, len(colors)-1)]
+	return choice(colors)

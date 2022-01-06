@@ -1,14 +1,13 @@
 {
   "519508374581149707": {
     "Log0log": [
-      "command:log",
-      "adminname:Froggo Doggo#6969",
-      "adminid519508374581149707"
-    ],
-    "Log1log": [
-      "command:log",
-      "adminname:Froggo Doggo#6969",
-      "adminid519508374581149707"
+      "log",
+      "Froggo Doggo#6969",
+      "519508374581149707",
+      [
+        "This is a test argument",
+        "Another test argument"
+      ]
     ]
   }
 }
