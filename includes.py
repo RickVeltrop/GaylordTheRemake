@@ -1,5 +1,9 @@
+import json
+import discord
 from random import choice
 from discord import Color as c
+
+JsonFile = 'json/logs.json'
 
 colors = [
 	c.from_rgb(255, 255, 255),		# White
@@ -26,3 +30,15 @@ colors = [
 def randomcolor():
 	# Return a random color #
 	return choice(colors)
+
+async def log(ctx):
+	# Check if a user was mentioned #
+	user = ctx.message.mentions[0] if len(ctx.message.mentions) > 0 else None
+
+	items = {
+		'admin': ctx.author,
+		'cmdname': ctx.command.name,
+		'target': user if user is not None else 'None',
+	}
+
+	await ctx.reply(f'Admin: {items["admin"]}\nCmd: {items["cmdname"]}\nTarget: {items["target"]}')

@@ -26,7 +26,6 @@ ext = [
     'extensions.admin',
     'extensions.channeladmin',
     'extensions.help',
-    'extensions.logging',
     'extensions.errors',
 ]
 
