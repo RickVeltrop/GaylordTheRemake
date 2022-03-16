@@ -34,11 +34,29 @@ def randomcolor():
 async def log(ctx):
 	# Check if a user was mentioned #
 	user = ctx.message.mentions[0] if len(ctx.message.mentions) > 0 else None
-
-	items = {
-		'admin': ctx.author,
-		'cmdname': ctx.command.name,
-		'target': user if user is not None else 'None',
+	
+	MsgId = ctx.message.id
+	Admin = ctx.author
+	CmdName = ctx.command.name
+	Target = user if user is not None else 'None'
+	
+	await ctx.reply(f'Admin: {Admin}\nCmd: {CmdName}\nTarget: {Target}')
+	
+	LogData = {
+		'Admin': f'{Admin.name}#{Admin.discriminator}',
+		'AdminId': Admin.id,
+		'CommandName': CmdName,
+		'Target': f'{Target.name}#{Target.discriminator}' if user is not None else 'None',
 	}
-
-	await ctx.reply(f'Admin: {items["admin"]}\nCmd: {items["cmdname"]}\nTarget: {items["target"]}')
+	
+	with open(JsonFile, 'r') as file:
+		JsonCont = dict(json.load(file))
+	
+	JsonCont[MsgId] = LogData
+	
+	with open(JsonFile, 'w') as file:
+		json.dump(JsonCont, file)
+	
+	print(
+		dict(json.load(open(JsonFile)))
+	)
