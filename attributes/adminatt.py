@@ -40,7 +40,7 @@ warn = {
     'description': 'Formally warns specified user for the given reason.',
     'enabled': True,
     'hidden': False,
-    'usage': '"reason" @user'
+    'usage': '@user "reason"'
 }
 
 showwarns = {

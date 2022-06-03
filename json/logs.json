@@ -1,14 +1,18 @@
 {
-  "953736793277206548": {
+  "982256793298284574": {
     "Admin": "Froggo Doggo#5832",
     "AdminId": 519508374581149707,
     "CommandName": "test",
-    "Target": "Clancy#8137"
+    "Target": "Gaylord Sumadiq#0798",
+    "TargetId": 764120992330416158,
+    "Args": []
   },
-  "953736798973083679": {
+  "982256804786495548": {
     "Admin": "Froggo Doggo#5832",
     "AdminId": 519508374581149707,
     "CommandName": "test",
-    "Target": "None"
+    "Target": null,
+    "TargetId": null,
+    "Args": []
   }
 }
