@@ -1,45 +1,40 @@
-import os
+import asyncio
+from os import *
 import discord
-from dotenv import load_dotenv
 from discord.ext import commands
+import colorama as cr
+from dotenv import load_dotenv
 
 load_dotenv()
+cr.init()
 
 Intents = discord.Intents.default()
-Intents.members = True
+Intents.message_content = True
 
-Client = commands.Bot(
-    command_prefix='-',
-    case_insensitive=True,
-    intents=Intents,
-    help_command=None,
+# Gaylord is the bot's name
+Gaylord = commands.Bot(
+	command_prefix = '>',
+	case_insensitive = True,
+    intents = Intents,
 )
 
-@Client.event
+Gaylord.owner_id = getenv('OWNER')
+
+@Gaylord.event
 async def on_ready():
-    Activity = discord.Game(f'{Client.command_prefix}help')
-    await Client.change_presence(status=discord.Status.online, activity=Activity)
-    print(f'Logged in as {Client.user}')
+	print(f'{cr.Fore.BLUE}Logged in as {Gaylord.user}')
 
-ext = [
-    'extensions.testing',
-    'extensions.admin',
-    'extensions.channeladmin',
-    'extensions.help',
-    'extensions.errors',
-]
+	Activity = discord.Game('with ur mom`s clit')
+	await Gaylord.change_presence(status=discord.Status.online, activity=Activity)
 
-if __name__ == "__main__":
-    for extension in ext:
-        Client.load_extension(extension)
-    Client.run(os.getenv('TOKEN'))
+async def main():
+	for file in listdir('./cogs'):
+		if not file.endswith('.py'): continue
+		await Gaylord.load_extension(f'cogs.{file[:-3]}')
 
-'''
--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  To do:  -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+	token = getenv('TOKEN')
+	async with Gaylord:
+		await Gaylord.start(token)
 
--- Admin logging
--- Fun commands
--- Quote command and managing
-
--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-'''
+if __name__ == '__main__':
+	asyncio.run(main())
