@@ -3,7 +3,7 @@ from discord.ext import commands
 import os
 import sys
 
-class test(commands.Cog, name='Test commands'):
+class dev(commands.Cog, name='Development commands'):
 	def __init__(self, bot):
 		self.bot = bot
 
@@ -19,4 +19,4 @@ class test(commands.Cog, name='Test commands'):
 		sys.exit()
 
 async def setup(bot):
-	await bot.add_cog(test(bot))
+	await bot.add_cog(dev(bot))
