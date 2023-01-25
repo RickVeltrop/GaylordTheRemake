@@ -23,7 +23,7 @@ Gaylord = commands.Bot(
 
 @Gaylord.event
 async def on_ready():
-	print(f'{cr.Fore.BLUE}Logged in as {Gaylord.user}')
+	print(f'{cr.Fore.BLUE}Logged in as {Gaylord.user}{cr.Fore.RESET}')
 
 	Activity = discord.Game('with ur mom`s clit')
 	await Gaylord.change_presence(status=discord.Status.online, activity=Activity)

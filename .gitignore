@@ -7,3 +7,4 @@ replit.nix
 poetry.lock
 pyproject.toml
 .git
+logs
