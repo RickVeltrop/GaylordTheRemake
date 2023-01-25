@@ -16,9 +16,8 @@ Gaylord = commands.Bot(
 	command_prefix = '>',
 	case_insensitive = True,
     intents = Intents,
+	owner_id = getenv('OWNER'),
 )
-
-Gaylord.owner_id = getenv('OWNER')
 
 @Gaylord.event
 async def on_ready():

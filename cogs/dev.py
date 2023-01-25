@@ -15,7 +15,6 @@ class test(commands.Cog, name='Test commands'):
 	@commands.command(hidden=False)
 	async def restart(self, ctx):
 		await ctx.reply('Restarting myself! This should only take a second.')
-
 		os.system('python ./main.py')
 		sys.exit()
 
