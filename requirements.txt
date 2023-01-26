@@ -1,0 +1,7 @@
+discord
+asyncio
+colorama
+python-dotenv
+Werkzeug
+Flask
+prettytable

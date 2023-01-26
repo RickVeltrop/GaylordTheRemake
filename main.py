@@ -2,7 +2,6 @@ import asyncio
 from os import *
 import discord
 from discord.ext import commands
-from web import WebRun
 import colorama as cr
 from dotenv import load_dotenv
 
@@ -33,8 +32,6 @@ async def main():
 	for file in listdir('./cogs'):
 		if not file.endswith('.py'): continue
 		await Gaylord.load_extension(f'cogs.{file[:-3]}')
-
-	WebRun()
 
 	token = getenv('TOKEN')
 	async with Gaylord:
